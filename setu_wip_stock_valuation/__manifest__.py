@@ -19,10 +19,10 @@
         'wizard/additional_product_view.xml',
         'views/mrp_production_view.xml'
     ],
-    'assets': {
-        'web.assets_backend': [
-            'setu_wip_stock_valuation/static/src/**/*.xml',
-        ],
-    },
+    # 'assets': {
+    #     'web.assets_backend': [
+    #         'setu_wip_stock_valuation/static/src/**/*.xml',
+    #     ],
+    # },
     'application': True,
 }
