@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Inherited maintenance.equipment model's view form -->
+        <record id="auto_maintenance_request_inherit_maintenance_equipment_view_form"
+                model="ir.ui.view">
+            <field name="name">
+                auto_maintenance_request_inherit_maintenance_equipment_view_form
+            </field>
+            <field name="model">maintenance.equipment</field>
+            <field name="inherit_id" ref="maintenance.hr_equipment_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='maintenance']" position="inside">
+                    <!-- Added Group: auto_maintenance_request_frequency -->
+                    <group string="Auto Maintenance Request Frequency"
+                           name="auto_maintenance_request_frequency"
+                           invisible="auto_maintenance_type not in ['dayswise', 'hourwise']"
+                    >
+                        <group>
+                            <field name="is_daily_maintenance" widget="boolean_toggle"/>
+                        </group>
+
+                        <group invisible="auto_maintenance_type == 'dayswise'">
+                            <field name="auto_maintenance_type" invisible="1"/>
+                            <field name="is_hourly_maintenance"
+                                   widget="boolean_toggle"
+                            />
+                            <field name="hourly_maintenance_hours"/>
+                            <field name="hours_in_per_day"/>
+                        </group>
+
+                        <group invisible="auto_maintenance_type == 'hourwise'">
+                            <field name="is_weekly_maintenance" widget="boolean_toggle"/>
+                            <field name="is_monthly_maintenance" widget="boolean_toggle"/>
+                            <field name="is_quarterly_maintenance" widget="boolean_toggle"/>
+                            <field name="is_half_yearly_maintenance" widget="boolean_toggle"/>
+                            <field name="is_yearly_maintenance" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                    <group name="auto_maintenance_request_date"
+                           string="Auto Maintenance Request Date"
+                           invisible="auto_maintenance_type not in ['dayswise', 'hourwise']"
+                    >
+                        <field name="maintenance_date"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

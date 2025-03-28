@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Inherited TABLET VIEW : quality.check -->
+        <record id="quality_check_view_form_tablet_inherit_mrp_extended" model="ir.ui.view">
+            <field name="name">quality.check.view.form.tablet.inherit.mrp.extended</field>
+            <field name="model">quality.check</field>
+            <field name="inherit_id" ref="setu_mrp_workorder.quality_check_view_form_tablet"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='lot_id']" position="attributes">
+                    <attribute name="context">{'default_product_id': component_id,
+                                               'default_company_id': company_id,
+                                               'active_mo_id': test_type == 'register_consumed_materials' and
+                                                production_id or False,
+                                               'is_need_to_find_available_stock_lot': True,
+                                               'production_id': production_id or False}
+                    </attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

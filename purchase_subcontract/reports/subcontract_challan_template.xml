@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="paperformat_challan" model="report.paperformat">
+            <field name="name">Challan</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">8</field>
+            <field name="margin_bottom">8</field>
+            <field name="margin_left">8</field>
+            <field name="margin_right">8</field>
+            <field name="disable_shrinking" eval="True"/>
+            <field name="dpi">90</field>
+        </record>
+
+        <record id="action_report_purchase_order" model="ir.actions.report">
+            <field name="name">Challan</field>
+            <field name="model">purchase.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">purchase_subcontract.report_subcontract_challan</field>
+            <field name="report_file">purchase_subcontract.report_subcontract_challan</field>
+            <field name="print_report_name">
+                (object.state in ('draft', 'sent') and 'Request for Quotation - %s' % (object.name) or
+                'Purchase Order - %s' % (object.name))
+            </field>
+            <field name="binding_model_id" ref="model_purchase_order"/>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+    <data>
+        <template id="report_subcontract_challan_document">
+            <t t-call="web.html_container">
+                <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)"/>
+                <div style="border:1px solid red" id="wrapwrap" class="p-4">
+                    <main class="shadow p-4">
+                        <div class="article">
+                            <div class="page" t-if="o.is_subcontract">
+                                <div style="border:1px solid black;">
+                                    <div class="oe_structure"/>
+                                    <div align="center"
+                                         style="border-bottom:1px solid black; padding-top: 4px; padding-bottom: 4px; border-bottom: 0 px solid black; !important">
+                                        <span style="font-size: 18px; font-weight: 700;">DELIVERY CHALLAN (JOBWORK)</span>
+                                        <br/>
+                                        <span style="font-size: 16px; font-weight: 600;">(See Rule 55 under Tax invoice,
+                                            Credit and Debit
+                                            Note Rules of CGST
+                                            Rules,2017
+                                            )
+                                        </span>
+                                    </div>
+                                    <div style="margin-left:5px;font-size: 12px;  padding-bottom: 0px; margin-top: 0px; font-weight: bold;">
+                                        Details Of Material Supplier
+                                    </div>
+                                    <div align="center"
+                                         style="border-bottom:1px solid black; border-left:0px solid black; border-right:0px solid black; font-size: 10px; padding-top: 0px;">
+                                        <h2>
+                                            <b>
+                                                <h2 t-field="o.company_id" class="m-0"
+                                                   style="margin-top: 4px; margin-bottom: 4px; font-weight: bold;"/>
+                                            </b>
+                                        </h2>
+                                        <span t-field="o.company_id.street" style="font-size: 14px;"/>
+                                        <br/>
+                                        <span t-field="o.company_id.street2" style="font-size: 14px;"/>,<span
+                                            style="font-size: 14px;">Vill:</span>
+                                        <span t-field="o.company_id.city" style="font-size: 14px;"/>
+                                        -<span t-field="o.company_id.zip" style="font-size: 14px;"/>,
+                                        <span t-field="o.company_id.country_id" style="font-size: 14px;"/>
+                                        <br/>
+                                        <span style="font-size: 16px; font-weight: bold;">GST No:</span>
+                                        <b>
+                                            <span style="font-size: 16px; font-weight: bold;" t-field="o.company_id.vat"/>
+                                        </b>
+                                    </div>
+                                    <div class="d-flex flex-nowrap" style="font-family:14px;">
+                                        <div class="col-11 mr-auto">
+                                            <span style="text-align:center;">
+                                                <h5><b>Jobwork Out Issue</b></h5>
+                                            </span>
+                                        </div>
+                                        <div class="col-1">
+                                            <b>Original</b>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex flex-nowrap"
+                                         style="border-bottom:1px solid black;border-top:1px solid black;">
+                                        <div class="order-1 col-7">
+                                            <div style="font-size:12px; margin-left:4px;">
+                                                <b>Details Of Jobwork Service Provider</b>
+                                            </div>
+                                            <table style="font-size:14px; margin-left:4px;">
+                                                <tr>
+                                                    <td>
+                                                        <b>Name</b>
+                                                    </td>
+                                                    <td>
+                                                        <b>:</b>
+                                                    </td>
+                                                    <td>
+                                                        <b>
+                                                            <span t-field="o.partner_id.name"/>
+                                                        </b>
+                                                        <br/>
+                                                        <span style="font-size: 12px; margin-left:4px;"
+                                                              t-field="o.partner_id.street"/>
+                                                        <br/>
+                                                        <span style="font-size: 12px; margin-left:4px;"
+                                                              t-field="o.partner_id.street2"/>
+                                                        <br/>
+                                                        <span style="font-size: 12px; margin-left:4px;"
+                                                              t-field="o.partner_id.city"/>
+                                                        -
+                                                        <span style="font-size: 12px; margin-left:4px;"
+                                                              t-field="o.partner_id.zip"/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <b>State &amp; Code</b>
+                                                    </td>
+                                                    <td>
+                                                        <b>:</b>
+                                                    </td>
+                                                    <td>
+                                                        <b>
+                                                            <span t-field="o.partner_id.state_id.name"/>
+                                                            <span t-field="o.partner_id.zip"/>
+                                                        </b>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <b>GSTIN</b>
+                                                    </td>
+                                                    <td>
+                                                        <b>:</b>
+                                                    </td>
+                                                    <td>
+                                                        <b>
+                                                            <span t-field="o.company_id.vat"/>
+                                                        </b>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div class="order-2 col-5" style="border-left:1px solid black;">
+                                            <table class="table" style="font-size:12px;">
+                                                <tr style="border-bottom: 1px solid black;">
+                                                    <td style="border-right:1px solid black;" width="50%">
+                                                        Challan No. / Document No.
+                                                        <br/>
+                                                        <span t-field="o.name"/>
+                                                    </td>
+                                                    <td width="50%">
+                                                        Dated
+                                                        <br/>
+                                                        <span t-esc="o.date_order.date()"/>
+                                                    </td>
+                                                </tr>
+                                                <tr style="border-bottom: 1px solid black;">
+                                                    <td style="border-right:1px solid black;" width="50%">
+                                                        Dispatched Through
+                                                        <br/>
+                                                        <span t-field="o.dispatch_via"/>
+                                                    </td>
+                                                    <td width="50%">
+                                                        Vehicle No.
+                                                        <br/>
+                                                        <span t-field="o.vehicle_number"/>
+                                                    </td>
+                                                </tr>
+                                                <tr style="border-bottom:0px;">
+                                                    <td style="border-right:1px solid black;" width="50%">
+                                                        Nature of Processing Required
+                                                        <br/>
+                                                        <span t-field="o.subcontract_process_id"/>
+                                                    </td>
+                                                    <td width="50%">
+                                                        Remarks
+                                                        <br/>
+                                                        <span t-field="o.remark"/>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <table class="table"
+                                           style="height:10px; font-size: 13px; margin-bottom: 0px; border:0px;">
+                                        <thead>
+                                            <tr>
+                                                <th name="th_sr_no" width="5%" style="border-right:1px solid black;"
+                                                    class="text-center">
+                                                    <strong>SrNo.</strong>
+                                                </th>
+                                                <th name="th_description" width="43.50%"
+                                                    style="border-right:1px solid black;" class="text-center">
+                                                    <strong>Description of Goods</strong>
+                                                </th>
+                                                <th name="th_hsn_code" class="text-center" width="10%"
+                                                    style="border-right:1px solid black;" align="center">
+                                                    <strong>HSN Code</strong>
+                                                </th>
+                                                <th name="th_quantity" class="text-center"
+                                                    style="border-right:1px solid black;" width="10%">
+                                                    <strong>Quantity</strong>
+                                                </th>
+                                                <th name="th_uom" class="text-center" style="border-right:1px solid black;">
+                                                    <strong>UoM</strong>
+                                                </th>
+                                                <th name="th_price_unit" class="text-center"
+                                                    style="border-right:1px solid black;">
+                                                    <strong>Rate</strong>
+                                                </th>
+                                                <th name="th_amount" class="text-center" width="15%" >
+                                                    <strong>Amount</strong>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody style="font-size: 12px; margin-bottom: 0px; border:0px;">
+                                            <t t-set="current_subtotal" t-value="0"/>
+                                            <t t-set="total_qty" t-value="0"/>
+                                            <t t-set="count" t-value="0"/>
+                                            <t t-foreach="o.order_line" t-as="line">
+                                                <t t-set="current_subtotal"
+                                                   t-value="current_subtotal + line.price_subtotal"
+                                                   groups="account.group_show_line_subtotals_tax_excluded"/>
+                                                <t t-set="current_subtotal"
+                                                   t-value="current_subtotal + line.price_total"
+                                                   groups="account.group_show_line_subtotals_tax_included"/>
+                                                <t t-set="count"
+                                                   t-value="count + 1"/>
+                                                <t t-set="total_qty" t-value="total_qty + line.product_qty"/>
+                                                <tr>
+                                                    <t t-if="not line.display_type">
+                                                        <td id="product" width="5%" style="border-right:1px solid black;" class="text-center">
+                                                            <span>
+                                                                <t t-esc="count"/>
+                                                            </span>
+                                                        </td>
+                                                        <td id="product" width="43.50%"
+                                                            style="border-right:1px solid black;">
+                                                            <span t-field="line.product_id.name"/>
+                                                            <br/>
+                                                            <span t-field="line.name"/>
+                                                            <br/>
+                                                            <b>Delivery Date:</b>
+                                                            <span t-esc="o.date_planned.date()"/>
+                                                        </td>
+                                                        <td class="text-end" width="10%"
+                                                            style="border-right:1px solid black;">
+                                                            <span t-field="line.product_id.l10n_in_hsn_code"/>
+                                                        </td>
+                                                        <td class="text-center" width="10%"
+                                                            style="border-right:1px solid black;">
+                                                            <span t-field="line.product_qty"/>
+                                                        </td>
+                                                        <td class="text-center"
+                                                            style="border-right:1px solid black;">
+                                                            <span t-field="line.product_uom.name"
+                                                                  groups="uom.group_uom"/>
+                                                        </td>
+                                                        <td class="text-center"
+                                                            style="border-right:1px solid black;">
+                                                            <span t-field="line.price_unit"/>
+                                                        </td>
+                                                        <td class="text-center" width="15%">
+                                                            <span t-field="line.price_subtotal"
+                                                                  t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                                        </td>
+                                                    </t>
+                                                </tr>
+                                            </t>
+                                            <tr style="height: 10px; font-size: 12px;">
+                                                <td/>
+                                                <td style="border-left:1px solid black;"/>
+                                                <td style="border-left:1px solid black;"/>
+                                                <td class="text-center"
+                                                    style="border-right:1px solid black; border-left:1px solid black;">
+                                                    <div>
+                                                        <b>
+                                                            <t t-esc="total_qty"/>
+                                                        </b>
+                                                    </div>
+                                                </td>
+                                                <td style="border-left:1px solid black;"/>
+                                                <td style="border-left:1px solid black;"/>
+                                                <td class="text-center" style="border-left:1px solid black;">
+                                                    <div>
+                                                        <b>
+                                                            <t t-esc="round(current_subtotal,2)"
+                                                               t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                                        </b>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="row" style="font-size: 12px; ">
+                                        <div class="col-2" style="margin-left:5px; font-weight:600;">
+                                            <b>Date :</b>
+                                            <b>
+                                                <span t-esc="o.date_order.date()" style="font-weight:600;"/>
+                                            </b>
+                                        </div>
+                                        <div class="col-3">
+                                            <span>
+                                                <b>CGST :</b>
+                                            </span>
+                                            <span>
+                                                <b>
+                                                    <span t-esc="o.get_tax_amount().get('CGST', '')"/>
+                                                </b>
+                                            </span>
+                                            <br/>
+                                            <span>
+                                                <b>SGST :</b>
+                                            </span>
+                                            <span>
+                                                <b>
+                                                    <span t-esc="o.get_tax_amount().get('SGST', '')"/>
+                                                </b>
+                                            </span>
+                                            <br/>
+                                        </div>
+                                        <div class="col-6" align="right" style="margin-bottom:11px;">
+                                            <br/>
+                                            <br/>
+                                            <span style="font-weight:600;">Signature of
+                                                Supplier/Manufacture/Authorized
+                                                Signatory</span>
+                                        </div>
+                                    </div>
+                                    <div class="oe_structure"/>
+                                </div>
+                                <div style="page-break-inside: avoid; border-left:
+                                        0px solid; border-right: 0px solid;">
+                                    <div align="center" style="margin-top:8px; border-bottom: 0px solid;">
+                                        <h6>
+                                            <b>PART - II</b>
+                                        </h6>
+                                    </div>
+                                    <div style="border:1px solid black;">
+                                        <div class="oe_structure" style="border-left:
+                                        0px solid; border-right: 0px solid; border-top: 0px solid;  border-bottom: 0px solid;"/>
+                                        <div align="center" style="font-size: 14px; font-weight:700;">
+                                            <span>
+                                                <b>(To be completed by processor / job worker at the time of dispatches,
+                                                    back
+                                                    to the
+                                                    manufacturer,
+                                                    <br/>
+                                                    original copy to be retained by job worker, Duplicate copy to Dispatched
+                                                    along with
+                                                    goods )
+                                                </b>
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <table class="table table-bordered" style="height: 5px; font-size: 12px;">
+                                                <tbody>
+                                                    <tr style="border: 1px solid black; border-left: 0px solid; border-right: 0px solid;">
+                                                        <td width="50%" style="border-left: 0px solid;">1. Date &amp; Time of
+                                                            Despatch of Finished
+                                                            Goods to
+                                                            Parent
+                                                            Factory / Another
+                                                            Manufacturer and Entry No, and Date of receipt in the
+                                                            Account in
+                                                            the
+                                                            Processing
+                                                            Factory
+                                                        </td>
+                                                        <td width="50%" style="border-right: 0px solid;"></td>
+                                                    </tr>
+                                                    <tr style="border: 1px solid black; border-left: 0px; border-right: 0px;">
+                                                        <td width="50%" style="border-left: 0px solid;">2. Quantity
+                                                            Despatched as Entered in Account
+                                                            (Nos/Weight/Litre/Meter) after
+                                                            Processing / job Working
+                                                        </td>
+                                                        <td width="50%" style="border-right: 0px solid;"></td>
+                                                    </tr>
+                                                    <tr style="border: 1px solid black; border-left: 0px; border-right: 0px;">
+                                                        <td width="50%" style="border-left: 0px solid;">3. Nature of
+                                                            Processino / Manufacturing Carried
+                                                            out
+                                                        </td>
+                                                        <td width="50%" style="border-right: 0px solid;"></td>
+                                                    </tr>
+                                                    <tr style="border: 1px solid black; border-left: 0px; border-right: 0px;">
+                                                        <td width="50%" style="border-left: 0px solid;">4. Quantity of Waste,
+                                                            If any generated and
+                                                            particolars of
+                                                            it's
+                                                            disposal
+                                                        </td>
+                                                        <td width="50%" style="border-right: 0px solid;"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div style="font-size: 12px;margin-left:10px;">
+                                            <span>Place :</span>
+                                            <br/>
+                                            <br/>
+                                            <span>Date :</span>
+                                            <br/>
+                                        </div>
+                                        <div align="center" style="font-size: 14px;margin-bottom:8px;">
+                                            <b>Signature of Job Worker /Processor/Authorised Signatory
+                                                <br/>
+                                                (Full Name &amp; Address of job Worker/Processor)
+                                            </b>
+                                        </div>
+                                        <div class="oe_structure"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            </t>
+        </template>
+
+        <template id="report_subcontract_challan">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="purchase_subcontract.report_subcontract_challan_document" t-lang="o.partner_id.lang"/>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

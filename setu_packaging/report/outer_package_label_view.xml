@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="paperformat_outer_package_label" model="report.paperformat">
+            <field name="name">Outer Label</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">100</field>
+            <field name="page_width">150</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">0</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">10</field>
+            <field name="dpi">90</field>
+        </record>
+    </data>
+    <data>
+        <record id="action_outer_package_label" model="ir.actions.report">
+            <field name="name">Outer Label</field>
+            <field name="model">setu.outer.package.line</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">setu_packaging.outer_package_report_label_main</field>
+            <field name="report_file">setu_packaging.outer_package_report_label_main</field>
+            <field name="print_report_name">
+                'Label %s' % (object.quant_package_id.name)
+            </field>
+            <field name="binding_model_id" ref="setu_packaging.model_setu_outer_package_line"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="setu_packaging.paperformat_outer_package_label"/>
+        </record>
+
+        <template id="outer_package_label">
+            <t t-call="web.html_container">
+                <div id="wrapwrap" class="p-4">
+                    <main class="shadow p-4">
+                        <div class="article">
+                            <div class="page">
+                                <div style="border 1px solid black">
+                                    <div class="oe_structure"/>
+                                         <table style="font-family;arial; margin-bottom: 0px ;padding: 0.0rem 0.5rem"
+                                           class="table-borderless">
+                                        <tr style="height:16px;">
+                                            <td colspan="3">
+                                                <div align="center"
+                                                     style="font-size: 15px;">
+                                                    <h2 style="margin-bottom:-2px;margin-top:-2px;">
+                                                        <b><u style="padding-bottom:10px;font-size:25px" t-field="o.quant_package_id.setu_package_id.company_id"></u></b>
+                                                    </h2>
+                                                </div>
+                                                <div align="center"
+                                                     style="border-bottom:2px solid black; font-size: 20px;  font-weight:900;">
+                                                    <span t-field="o.quant_package_id.setu_package_id.company_id.street"/>
+                                                <br/>
+                                                    <span t-field="o.quant_package_id.setu_package_id.company_id.street2"/>,Vill.
+                                                    <span t-field="o.quant_package_id.setu_package_id.company_id.city"/>
+                                                    -<span t-field="o.quant_package_id.setu_package_id.company_id.zip"/>,
+                                                    <span t-field="o.quant_package_id.setu_package_id.company_id.country_id"/>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr style="height:80px;font-size:23px; font-weight:900;">
+                                            <td width="22%">Description</td>
+                                            <td width="70%">
+                                                &amp;nbsp;:
+                                                <span style="margin-left:5px;" t-field="o.product_id.name"/>
+                                            </td>
+                                        </tr>
+
+                                        <tr style="height:38px;font-size:23px; font-weight:900;">
+                                            <td width="22%">Size</td>
+                                            <td width="22%">
+                                                :
+                                                <span style="margin-left:5px;" t-field="o.product_id.size"/>
+                                            </td>
+                                            <td colspan="2" style="position:relative;">
+                                            <p style="font-size:21px;position:absolute;top:-7px;left:-120px;">(Grade&amp;nbsp; : &amp;nbsp; <span t-field="o.quant_package_id.setu_package_id.product_id.grade_id.name"/>)</p></td>
+                                        </tr>
+                                        <tr style="height:38px;font-size:23px; font-weight:900;">
+                                            <td width="22%">Part No.</td>
+                                            <td width="50%">
+                                                :
+                                                  <span style="margin-left:5px;" t-field="o.quant_package_id.setu_package_id.product_id.default_code"/>
+                                            </td>
+                                        </tr>
+                                        <tr style="height:38px;font-size:23px; font-weight:900;">
+                                            <td width="22%">No. Of Box</td>
+                                            <td width="50%">
+                                                :
+                                                <span style="margin-left:5px;" t-field="o.quant_package_id.setu_package_id.no_of_outer_boxes"/> X
+                                                <t t-set="qty" t-value="int(o.quant_package_id.setu_package_id.product_id.qty_in_pack)"/>
+                                                <t t-esc="qty"/> N
+                                            </td>
+                                        </tr>
+                                         <tr style="height:38px;font-size:23px;font-weight:900;">
+                                            <td width="22%">Total Qty.</td>
+                                            <td width="40%">
+                                                :
+                                                <t t-set="no_of_qty" t-value="round(sum(o.quant_package_id.quant_ids.mapped('quantity')))"/>
+                                                <span style="margin-left:5px;" t-esc="no_of_qty"/> Nos
+                                            </td>
+                                        </tr>
+                                        <tr style="height:38px;font-size:23px; font-weight:900;">
+                                            <td width="22%">Pkd. On</td>
+                                            <td width="40%">
+                                                :
+                                                <span style="margin-left:5px;" t-esc="context_timestamp(datetime.datetime.now()).strftime('%B %Y')"/>
+                                            </td>
+                                        </tr>
+                                        <tr height="7%;">
+                                            <td colspan="3" align="center">
+                                                <div style="border-top:1px solid black;">
+                                                    <div t-field="o.quant_package_id.setu_package_id.product_id.default_code"
+                                                         t-options="{'widget': 'barcode', 'width': 2000, 'height': 180, 'img_style': 'max-height:30pt;max-width:120%;'}"
+                                                         style="margin-top:5px;"/>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            </t>
+        </template>
+
+        <template id="outer_package_report_label_main">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="setu_packaging.outer_package_label"/>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

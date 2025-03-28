@@ -1,0 +1,51 @@
+.o_project_data_level_wise_page {
+    background-color: $o-view-background-color;
+    margin: 16px auto;
+    padding: 24px 16px;
+    // Manage expand icon
+    table.o_raw_material_stock_expandable {
+        thead tr {
+            border-width: 2px;
+            border-top-style: groove;
+            border-bottom-style: groove;
+        }
+        tbody tr {
+            border-width: 1px;
+            border-top-style: solid;
+            border-bottom-style: groove;
+            .o_project_data_level_wise_unfoldable, .o_project_data_level_wise_foldable {
+                cursor: pointer;
+            }
+        }
+        tbody, tfoot {
+            & > tr > td ~ td > span {
+                margin-left: 10px;
+            }
+            tr {
+                .o_project_data_level_wise_no_fold {
+                    margin-left: 18px;
+                }
+                .o_project_data_level_wise_unfoldable, .o_project_data_level_wise_foldable {
+                    margin-left: -2px;
+                }
+            }
+        }
+    }
+
+    @include media-breakpoint-down(sm) {
+        .o_raw_material_stock_line {
+            & .fa-caret-down, & .fa-caret-right {
+                margin-left: 10px;
+                font-size: 2em;
+            }
+        }
+    }
+}
+
+.o_project_data_level_wise_buttons {
+    @include media-breakpoint-down(sm) {
+        display: grid;
+        grid-gap: 4px; // For compatibility
+        gap: 4px;
+    }
+}

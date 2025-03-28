@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Wizard Form View -->
+    <record id="package_weight_wizard_form_view" model="ir.ui.view">
+        <field name="name">package.weight.wizard.form.view</field>
+        <field name="model">package.weight.wizard</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Weight">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="package_id" invisible="1"/>
+                            <field name="weight"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="do_weight_and_update_in_package" string="Update" type="object"
+                                class="btn-primary"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <record id="package_weight_wizard_action" model="ir.actions.act_window">
+        <field name="name">Weight</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="target">new</field>
+        <field name="res_model">package.weight.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="package_weight_wizard_form_view"/>
+    </record>
+
+
+    <record id="weight_scale_wizard_form_view" model="ir.ui.view">
+        <field name="name">Weight Scale</field>
+        <field name="model">package.weight.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="setu_weight" widget="weight_scale" readonly="1" string="Weight"/>
+                        <field name="package_id" invisible="1"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="do_weight_and_update_in_package" string="Update" type="object"
+                            class="btn-primary" id="weight_scale_button"/>
+                    <button name="cancel" special="cancel" data-hotkey="z" type="object" string="Cancel"
+                            class="btn-danger"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_package_weight_scale_wizard" model="ir.actions.act_window">
+        <field name="name">Weight Scale</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">package.weight.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="weight_scale_wizard_form_view"/>
+    </record>
+</odoo>

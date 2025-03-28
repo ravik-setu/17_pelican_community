@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="setu_packaging_inherited_product_template_only_form_view" model="ir.ui.view">
+            <field name="name">setu.packaging.inherited.product.template.only.form.view</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='inventory']" position="after">
+                    <page string="Packaging" name="setu_packaging">
+                        <group>
+                            <group>
+                                <field name="put_in_pack"/>
+                                <field name="put_in_pack_product_id"
+                                       required="put_in_pack" invisible="not put_in_pack"/>
+                                <field name="qty_in_pack"
+                                       required="put_in_pack" invisible="not put_in_pack"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

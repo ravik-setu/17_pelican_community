@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Search View-->
+    <record id="mrp_extended_inherit_search_product_lot_filter" model="ir.ui.view">
+        <field name="name">mrp_extended_inherit_search_product_lot_filter</field>
+        <field name="model">stock.lot</field>
+        <field name="inherit_id" ref="stock.search_product_lot_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search/group" position="inside">
+                <filter string="Planning Lot" name="planning_lot_id" domain="[]"
+                        context="{'group_by': 'planning_lot_id'}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Override Action -->
+    <record id="stock.action_production_lot_form" model="ir.actions.act_window">
+        <field name="context">{'search_default_group_by_product': 1, 'display_complete': True, 'default_company_id':
+            allowed_company_ids[0], 'search_default_planning_lot_id': True}
+        </field>
+    </record>
+</odoo>

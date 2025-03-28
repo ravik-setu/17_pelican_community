@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="swsv_inherit_view_mrp_workorder_additional_product_wizard" model="ir.ui.view">
+            <field name="name">swsv.inherit.view.mrp.workorder.additional.product.wizard</field>
+            <field name="model">mrp_workorder.additional.product</field>
+            <field name="inherit_id" ref="setu_mrp_workorder.view_mrp_workorder_additional_product_wizard"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <field name="product_id" position="after">
+                    <field name="lot_id" domain="[('product_id','=', product_id)]"
+                          invisible = "product_tracking != 'none'"/>
+                </field>
+            </field>
+        </record>
+        <record id="view_mrp_workorder_return_product_wizard" model="ir.ui.view">
+            <field name="name">MRP Return Product</field>
+            <field name="model">mrp_workorder.additional.product</field>
+            <field name="arch" type="xml">
+                <form string="Add product">
+                    <group>
+                        <group>
+                            <field name="company_id" invisible="1"/>
+                            <field name="product_tracking" invisible="1"/>
+                            <field name="is_return" invisible="1"/>
+                            <field name="type" invisible="1"/>
+                            <field name="product_uom_category_id" invisible="1"/>
+                            <field name="product_id" domain="[('id','in', context.get('product_ids'))]"/>
+                            <field name="lot_id"
+                                   domain="[('product_id','=', product_id),('id','in',  context.get('lot_ids'))]"
+                                   invisible="product_tracking != 'none'"/>
+                            <label for="product_qty" string="Quantity"/>
+                            <div class="o_row">
+                                <field name="product_qty"    readonly="product_tracking == 'serial'"/>
+                                <field name="product_uom_id" groups="uom.group_uom"
+                                       readonly="product_tracking == 'serial'"/>
+                            </div>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="return_product" type="object" string="Move To Raw Material"
+                                invisible="not is_return" class="btn-primary"
+                                data-hotkey="q"/>
+                        <button string="Discard" class="btn-default btn-secondary" special="cancel" data-hotkey="z"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

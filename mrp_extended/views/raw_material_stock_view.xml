@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="raw_material_stock_tree_view" model="ir.ui.view">
+            <field name="name">raw.material.stock.tree.view</field>
+            <field name="model">raw.material.stock</field>
+            <field name="arch" type="xml">
+                <tree string="Process"  create="false" delete="false">
+                    <field name="parent_product_id" readonly="1"/>
+                    <field name="product_id" readonly="1"/>
+                    <field name="grade_id" readonly="1"/>
+                    <field name="total_qty" readonly="1"/>
+                    <field name="uom_id" readonly="1"/>
+                    <field name="order_qty" readonly="1"/>
+                    <field name="uom_id" readonly="1"/>
+                    <field name="stock_qty" readonly="1"/>
+                    <field name="uom_id" readonly="1"/>
+                    <field name="current_stage" readonly="1"/>
+                    <field name="remarks"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="raw_material_stock_form" model="ir.ui.view">
+            <field name="name">raw.material.stock.form</field>
+            <field name="model">raw.material.stock</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <field name="remarks" required="1"/>
+                        <notebook>
+                            <page string="Details" name="Details">
+                                <field name="lines" nolabel="1">
+                                    <tree create="false" editable="bottom" delete="false">
+                                        <field name="parent_product_id" readonly="1"/>
+                                        <field name="product_id" readonly="1"/>
+                                        <field name="grade_id" readonly="1"/>
+                                        <field name="total_qty" readonly="1"/>
+                                        <field name="uom_id" readonly="1"/>
+                                        <field name="order_qty" readonly="1"/>
+                                        <field name="uom_id" readonly="1"/>
+                                        <field name="stock_qty" readonly="1"/>
+                                        <field name="uom_id" readonly="1"/>
+                                        <field name="current_stage" readonly="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="raw_material_stock_action" model="ir.actions.act_window">
+            <field name="name">Raw Material Stock</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">raw.material.stock</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    There is no Stock.
+                </p>
+            </field>
+        </record>
+
+        <record id="action_project_data_level_wise_view" model="ir.actions.client">
+            <field name="name">Raw Material Stock</field>
+            <field name="tag">project_data_level_wise_view</field>
+            <field name="context" eval="{'model': 'project_extended.project_data_level_wise'}"/>
+        </record>
+
+
+        <menuitem name="Raw Material Stock" id="raw_material_stock_menu"
+                  parent="purchase_subcontract.menu_subcontract_root"
+                  action="raw_material_stock_action" sequence="3"/>
+
+    </data>
+</odoo>

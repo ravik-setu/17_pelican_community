@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Inherited : Stock Picking Form View -->
+        <record id="stock_extended_inherit_view_picking_form" model="ir.ui.view">
+            <field name="name">stock.extended.inherit.view.picking.form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='button_validate']" position="after">
+                    <field name="picking_type_code" invisible="1"/>
+                    <button name="do_unreserve" type="object" string="Unreserve"
+                            invisible="picking_type_code != 'internal' or state in ['draft', 'done', 'cancel']"/>
+                </xpath>
+                <xpath expr="//field[@name='location_id']" position="attributes">
+                    <attribute name="readonly">state not in ['draft']</attribute>
+                </xpath>
+                <xpath expr="//field[@name='location_dest_id']" position="attributes">
+                     <attribute name="readonly">state not in ['draft']</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="stock_extended_inherited_view_stock_move_line_operation_tree" model="ir.ui.view">
+            <field name="name">stock_extended.view_stock_move_line_operation_tree</field>
+            <field name="model">stock.move.line</field>
+            <field name="inherit_id" ref="stock.view_stock_move_line_operation_tree" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='lot_id']" position="attributes">
+		            <attribute name="context">{
+                        'active_mo_id': context.get('active_mo_id'),
+                        'active_picking_id': picking_id,
+                        'default_company_id': parent.company_id,
+                        'default_product_id': parent.product_id,
+                        'find_available_lots': location_id
+                        }
+                    </attribute>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

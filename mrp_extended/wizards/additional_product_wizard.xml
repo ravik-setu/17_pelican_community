@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Inherited setu_mrp_workorder.addition.product Form View -->
+        <record id="mrp_extended_inherit_view_mrp_workorder_additional_product_wizard" model="ir.ui.view">
+            <field name="name">mrp.extended.inherit.view.mrp.workorder.additional.product.wizard</field>
+            <field name="model">mrp_workorder.additional.product</field>
+            <field name="inherit_id" ref="setu_mrp_workorder.view_mrp_workorder_additional_product_wizard"/>
+            <field name="arch" type="xml">
+                <!-- Added Domain for product_id -->
+                <xpath expr="//field[@name='product_id']" position="attributes">
+                    <attribute name="domain">[('id', 'in', context.get('product_ids'))]</attribute>
+                    <attribute name="options">{"no_open": True, "no_create": True}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='lot_id']" position="before">
+                    <field name="workorder_id" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='lot_id']" position="attributes">
+                    <attribute name="context">{"add_comp_product": product_id, "wo_add_comp": workorder_id}</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

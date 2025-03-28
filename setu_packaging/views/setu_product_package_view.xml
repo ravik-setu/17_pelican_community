@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="setu_product_package_form_view" model="ir.ui.view">
+            <field name="name">setu.product.package.form.view</field>
+            <field name="model">setu.product.package</field>
+            <field name="arch" type="xml">
+                <form string="Packaging">
+                    <header>
+                        <button name="do_package_weight" type="object" data-hotkey="shift+g"
+                                string="Manual Weight" class="oe_highlight"
+                                invisible="outer_box or state != 'new'"/>
+                        <button name="open_weight_scale_wizard" type="object" data-hotkey="1"
+                                string="Weight Scale" class="oe_highlight"
+                                invisible="outer_box or state != 'new'"/>
+                        <button name="button_validate_package" type="object" data-hotkey="shift+v"
+                                string="Validate" class="oe_right"
+                                invisible="outer_box or not package_lines or state != 'new'"
+                                align="right"/>
+                        <button name="button_validate_outer_package" type="object" data-hotkey="shift+v"
+                                string="Validate" class="oe_right"
+                                invisible="not outer_box or not outer_package_line_ids or state != 'new'"
+                                align="right"/>
+                        <button name="button_cancel" type="object" data-hotkey="c"
+                                string="Cancel" class="oe_highlight"
+                                invisible="state != 'new'"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_see_created_packages" string="Packages" type="object"
+                                class="oe_stat_button" icon="fa-cubes"  invisible="state != 'done'"/>
+                            <button name="action_view_package_moves" type="object" class="oe_stat_button"
+                                    icon="fa-pencil-square-o"  invisible="state != 'done'"
+                                    string="Moves"/>
+                        </div>
+                        <group>
+                            <group readonly="state != 'new'">
+                                <field name="package_ids" invisible="1"/>
+                                <field name="product_id" domain="[('put_in_pack', '=', True)]"/>
+                                <label for="min_weight" string="Weight"
+                                       invisible="outer_box" required="not outer_box"/>
+                                <div class="o_row" invisible="outer_box">
+                                    <span>Min</span>
+                                    <field name="min_weight" required="not outer_box"/>
+                                    <span>Max</span>
+                                    <field name="max_weight" required="not outer_box"/>
+                                </div>
+                                <field name="put_in_pack_product_id" invisible="1"/>
+                                <field name="product_tracking" invisible="1"/>
+                                <field name="outer_box" invisible="1"/>
+                                <field name="outer_package_type_id" required="outer_box" invisible="not outer_box"/>
+                                <field name="lot_id" domain="[('product_id','=',put_in_pack_product_id)]"
+                                       required="not outer_box and product_tracking != 'none'"
+                                       invisible="outer_box or product_tracking == 'none'"
+                                       context="{'product_id': put_in_pack_product_id}"
+                                       options="{'no_create_edit': True,
+                                                 'no_open': True,
+                                                 'no_create': True}"/>
+                                <field name="lot_ids" domain="[('product_id','=',product_id)]" widget="many2many_tags"
+                                       invisible="not outer_box or product_tracking == 'none'"
+                                       context="{'lots_for_outer_package': product_id}"
+                                       options="{'no_create_edit': True,
+                                                 'no_open': True,
+                                                 'no_create': True}"/>
+                                <field name="no_of_outer_boxes" invisible="not outer_box"/>
+                            </group>
+                            <group>
+                                <field name="total_weight"/>
+                                <field name="picking_id" readonly="1" string="Transfer"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Details" name="Details" invisible="outer_box">
+                                <field name="package_lines" nolabel="1" readonly="state != 'new'">
+                                    <tree create="false">
+                                        <field name="quant_package_id" readonly="1"/>
+                                        <field name="weight" readonly="1"/>
+                                        <button name="%(setu_packaging.action_package_label)d"
+                                                icon="fa-arrow-right" type="action" string="Printers" class="btn-link"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Details" name="outer_details"
+                                  invisible="not outer_box">
+                                <field name="outer_package_line_ids" readonly="state != 'new'">
+                                    <tree create="false" edit="false">
+                                        <field name="product_id" invisible="1"/>
+                                        <field name="lot_id" invisible="1"/>
+                                        <field name="package_id" invisible="1"/>
+                                        <field name="quant_package_id"/>
+                                        <field name="weight" readonly="1"/>
+                                        <button name="%(setu_packaging.action_outer_package_label)d"
+                                                icon="fa-arrow-right" type="action" string="Print" class="btn-link"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="setu_product_package_tree_view" model="ir.ui.view">
+            <field name="name">setu.product.package.tree.view</field>
+            <field name="model">setu.product.package</field>
+            <field name="arch" type="xml">
+                <tree string="Packaging">
+                    <field name="product_id"/>
+                    <field name="min_weight"/>
+                    <field name="max_weight"/>
+                    <field name="total_weight"/>
+                    <field name="lot_id"/>
+                    <field name="state" widget="badge" decoration-warning="state == 'new'"
+                           decoration-success="state == 'done'"
+                           decoration-info="state == 'cancel'"/>
+                    <field name="outer_box" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        <record id="setu_product_package_action" model="ir.actions.act_window">
+            <field name="name">Inner Box</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">setu.product.package</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('outer_box','=', False)]</field>
+            <field name="context">{'default_outer_box': False}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    There is no package click here to add new package.
+                </p>
+            </field>
+        </record>
+
+        <record id="setu_product_outer_packages_action" model="ir.actions.act_window">
+            <field name="name">Outer Box</field>
+            <field name="res_model">setu.product.package</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('outer_box','=', True)]</field>
+            <field name="context">{'default_outer_box': True}</field>
+        </record>
+
+        <record id="setu_product_outer_quant_packages_action" model="ir.actions.act_window">
+            <field name="name">Unpack Outer Packages</field>
+            <field name="res_model">stock.quant.package</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('outer_package','=', True), ('is_unpacked','=', False)]</field>
+            <field name="context">{'create': False, 'delete': False}</field>
+        </record>
+
+        <menuitem name="Packaging" id="package_menu"
+                  action="setu_product_package_action"
+                  groups="mrp.group_mrp_manager"
+                  web_icon="setu_packaging,static/description/packaging.png"
+                  sequence="137"/>
+
+        <menuitem id="setu_product_package"
+                  name="Product Package"
+                  parent="setu_packaging.package_menu"
+                  sequence="1" groups="mrp.group_mrp_manager"/>
+
+        <menuitem id="setu_product_inner_package"
+                  name="Inner Box"
+                  parent="setu_packaging.setu_product_package"
+                  action="setu_packaging.setu_product_package_action" sequence="1"
+                  groups="mrp.group_mrp_manager"/>
+
+        <menuitem id="setu_product_outer_package"
+                  name="Outer Box"
+                  parent="setu_packaging.setu_product_package"
+                  action="setu_packaging.setu_product_outer_packages_action" sequence="2"
+                  groups="mrp.group_mrp_manager"/>
+
+        <menuitem id="setu_unpack_menu" name="Unpack" parent="setu_product_package"
+              sequence="3" groups="mrp.group_mrp_manager"/>
+
+        <menuitem id="setu_unpack_outer_packages_menu" name="Outer Packages" action="setu_product_outer_quant_packages_action" parent="setu_unpack_menu"
+              sequence="3" groups="mrp.group_mrp_manager"/>
+
+        <menuitem id="setu_product_package_configuration_menu" name="Configuration" parent="package_menu"
+              sequence="3" groups="mrp.group_mrp_manager"/>
+
+        <menuitem id="setu_packaging_types_menu" name="Package Types" parent="setu_product_package_configuration_menu"
+              action="stock.action_package_type_view" groups="mrp.group_mrp_manager" sequence="1"/>
+
+    </data>
+</odoo>

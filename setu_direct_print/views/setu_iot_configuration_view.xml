@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_setu_iot_configuration_tree" model="ir.ui.view">
+            <field name="name">view.setu.iot.configuration.tree</field>
+            <field name="model">setu.iot.configuration</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="IOT"  editable="bottom">
+                    <field name="server_user"/>
+                    <field name="server_pass"/>
+                    <field name="server"/>
+                    <field name="server_port"/>
+                    <field name="report_ids"  widget="many2many_tags"/>
+                    <field name="company_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_setu_iot_configuration" model="ir.actions.act_window">
+            <field name="name">Setu IOT</field>
+            <field name="res_model">setu.iot.configuration</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_setu_iot_configuration_tree"/>
+        </record>
+
+        <menuitem
+                name="Setu IOT"
+                id="menu_setu_iot_configuration"
+                action="action_setu_iot_configuration"
+                groups="base.group_no_one"
+        />
+
+    </data>
+</odoo>

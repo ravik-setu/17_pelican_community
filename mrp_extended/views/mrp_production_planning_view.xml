@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="mrp_extended_inherit_view_mrp_production_planning_form" model="ir.ui.view">
+            <field name="name">mrp.extended.inherit.view.mrp.production.planning.form</field>
+            <field name="model">mrp.production.planning</field>
+            <field name="inherit_id" ref="production_planning.view_mrp_production_planning_form"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_id']" position="attributes">
+                    <attribute name="domain">[('put_in_pack','=', True)]</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Menu : Stock Reports -->
+        <menuitem id="menu_stock_manufacturing_production_planning" name="Stock Reports"
+                  parent="production_planning.menu_manufacturing_process_root" sequence="2"/>
+
+        <menuitem id="menu_inventory_stock_manufacturing_production_planning" name="Inventory Stock"
+                  parent="menu_stock_manufacturing_production_planning" action="stock.action_product_stock_view"
+                  sequence="1"/>
+
+        <menuitem id="menu_raw_material_stock_manufacturing_production_planning" name="Raw Material Stock"
+                  parent="menu_stock_manufacturing_production_planning" action="mrp_extended.raw_material_stock_action"
+                  sequence="2"/>
+
+    </data>
+</odoo>

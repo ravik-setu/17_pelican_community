@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="paperformat_package_label" model="report.paperformat">
+            <field name="name">Label</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">75</field>
+            <field name="page_width">75</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">0</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">10</field>
+            <field name="dpi">90</field>
+        </record>
+    </data>
+    <data>
+        <record id="action_package_label" model="ir.actions.report">
+            <field name="name">Label</field>
+            <field name="model">setu.product.package.line</field>
+            <field name="report_type">qweb-html</field>
+            <field name="report_name">setu_packaging.report_package_label_main</field>
+            <field name="report_file">setu_packaging.report_package_label_main</field>
+            <field name="print_report_name">
+                'Label %s' % (object.lot_id.name)
+            </field>
+            <field name="binding_model_id" ref="model_setu_product_package_line"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="setu_packaging.paperformat_package_label"/>
+        </record>
+
+        <template id="report_package_label">
+            <t t-call="web.html_container">
+                <div id="wrapwrap" class="p-4">
+                    <main class="shadow p-4">
+                        <div class="article">
+                            <div class="page">
+                                <div style="border 1px solid black">
+                                    <div class="oe_structure"/>
+                                    <table style="font-family;arial; margin-bottom: 0px ;padding: 0.0rem 0.5rem"
+                                           class="table-borderless">
+                                        <tr style="height:16px;">
+                                            <td colspan="3">
+                                                <div align="center"
+                                                     style="border-bottom:1px solid black; font-size: 15px;">
+                                                    <h2 style="margin-bottom:-2px;margin-top:-13px;">
+                                                        <b>
+                                                            <span t-field="o.package_id.company_id"
+                                                                  style="font-size: 18px;"/>
+                                                        </b>
+                                                    </h2>
+                                                </div>
+                                                <div align="center"
+                                                     style="border-bottom:1px solid black; font-size: 13px; padding-top: 5px; font-weight:600;">
+                                                    <span t-field="o.package_id.company_id.street"/>
+                                                    <br/>
+                                                    <span t-field="o.package_id.company_id.street2"/>,Vill.
+                                                    <span t-field="o.package_id.company_id.city"/>
+                                                    -<span t-field="o.package_id.company_id.zip"/>,
+                                                    <span t-field="o.package_id.company_id.country_id"/>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr style="height:60px;font-size:17px; font-weight:900;">
+                                            <td colspan="2">
+                                                <div>
+                                                    <b>
+                                                        <h2>
+                                                            <p t-field="o.package_id.product_id.name" class="m-0"
+                                                               style="font-size:17px; font-weight:900; margin-top: -20px; margin-bottom: 0px"/>
+                                                        </h2>
+                                                    </b>
+                                                </div>
+                                            </td>
+                                            <td colspan="2" style="position:relative;">
+                                                <div>
+                                                    <h4>
+                                                        <p class="m-2" style="font-size:30px;position:absolute;top:-10px;left:-10px;">
+                                                            <b style="border-bottom: 4px double;">EBRO</b>
+                                                        </p>
+                                                    </h4>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr style="height:29px;font-size:17px; font-weight:900;">
+                                            <td width="20%">Code</td>
+                                            <td width="30%">
+                                                :
+                                                <span t-field="o.package_id.product_id.default_code"/>
+                                            </td>
+                                            <td class="image" width="30%" rowspan="4" align="right"
+                                                style="position:relative;">
+                                                <img t-attf-src="/web/image?model=product.product&amp;field=image_1920&amp;id=#{o.package_id.product_id.id}"
+                                                     width="120px" height="123px" alt=""
+                                                     style="top:-7px;left:-22px;position:absolute;"/>
+                                            </td>
+
+                                        </tr>
+
+                                        <tr style="height:29px;font-size:17px; font-weight:900;">
+                                            <td width="20%">Size</td>
+                                            <td width="50%">
+                                                :
+                                                <span t-field="o.package_id.product_id.size"/>
+                                            </td>
+                                        </tr>
+                                        <tr style="height:29px;font-size:17px; font-weight:900;">
+                                            <td width="20%">Grade</td>
+                                            <td width="50%">
+                                                :
+                                                <span t-field="o.package_id.product_id.grade_id.name"/>
+                                            </td>
+                                        </tr>
+                                        <tr style="height:29px;font-size:17px; font-weight:900;">
+                                            <td width="20%">MRP</td>
+                                            <td width="50%">
+                                                :
+                                                <span t-field="o.package_id.product_id.list_price"/>
+                                            </td>
+                                        </tr>
+                                        <tr style="height:29px;font-size:17px; font-weight:900;">
+                                            <td width="30%">Pkd On</td>
+                                            <td width="40%">
+                                                :
+                                                <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%b-%Y')"/>
+                                            </td>
+                                            <td width="30%" rowspan="2" align="right" style="position:absolute;top:250px;right:15px;">
+                                                <b>
+                                                    <span t-field="o.package_id.product_id.qty_in_pack"/>PCS
+                                                    <span t-field="o.weight"/>KG
+                                                </b>
+                                            </td>
+                                        </tr>
+                                        <tr style="height:25px;font-size:17px;font-weight:900;">
+                                            <td width="30%">Lot No</td>
+                                            <td width="40%">
+                                                : <span t-field="o.quant_package_id"/>
+                                            </td>
+                                        </tr>
+                                        <tr height="7%;">
+                                            <td colspan="3">
+                                                <div style="border-top:1px solid black;">
+                                                    <div t-field="o.quant_package_id.name"
+                                                         t-options="{'widget': 'barcode', 'width': 1000, 'height': 90, 'img_style': 'max-height:22pt;max-width:160%;'}"
+                                                         style="margin-top:3px;"/>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            </t>
+        </template>
+
+        <template id="report_package_label_main">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="setu_packaging.report_package_label"/>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

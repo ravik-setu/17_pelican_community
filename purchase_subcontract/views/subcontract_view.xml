@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <menuitem name="Subcontract"
+                  id="menu_subcontract_root"
+                  groups="mrp.group_mrp_manager,purchase.group_purchase_manager"
+                  web_icon="purchase_subcontract,static/description/subcontracting.png"
+                  sequence="136"/>
+
+        <menuitem name="Orders"
+                  id="menu_subcontract"
+                  groups="mrp.group_mrp_manager,purchase.group_purchase_manager"
+                  parent="purchase_subcontract.menu_subcontract_root"
+                  sequence="1"/>
+
+        <record id="subcontract_request_form_action" model="ir.actions.act_window">
+            <field name="name">Quotation</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">purchase.order</field>
+            <field name="view_mode">tree,kanban,form,pivot,graph,calendar,activity</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('purchase.purchase_order_view_tree')}),
+                (0, 0, {'view_mode': 'kanban', 'view_id': ref('purchase.purchase_order_view_kanban_without_dashboard')}),
+            ]"/>
+            <field name="domain">[('is_subcontract','=', True),('state','not in',['purchase','done'])]</field>
+            <field name="search_view_id" ref="purchase.purchase_order_view_search"/>
+            <field name="context">{'is_subcontract': True}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No Subcontract found. Let's create one!
+                </p>
+            </field>
+        </record>
+
+        <menuitem action="subcontract_request_form_action" id="menu_request_subcontract"
+                  parent="purchase_subcontract.menu_subcontract"
+                  groups="mrp.group_mrp_manager,purchase.group_purchase_manager"
+                  sequence="1"/>
+
+        <record id="subcontract_order_action" model="ir.actions.act_window">
+            <field name="name">Orders</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">purchase.order</field>
+            <field name="view_mode">tree,kanban,form,pivot,graph,calendar,activity</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('purchase.purchase_order_view_tree')}),
+                (0, 0, {'view_mode': 'kanban', 'view_id': ref('purchase.purchase_order_view_kanban_without_dashboard')}),
+            ]"/>
+            <field name="domain">[('is_subcontract','=', True),('state','in',['purchase','done'])]]</field>
+            <field name="search_view_id" ref="purchase.purchase_order_view_search"/>
+            <field name="context">{'is_subcontract': True}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No Subcontract found. Let's create one!
+                </p>
+            </field>
+        </record>
+
+        <menuitem action="subcontract_order_action" id="menu_subcontract_order"
+                  parent="purchase_subcontract.menu_subcontract"
+                  groups="mrp.group_mrp_manager,purchase.group_purchase_manager"
+                  sequence="2"/>
+
+        <record id="subcontract_receipt_action" model="ir.actions.act_window">
+            <field name="name">Receipts</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,kanban,form,calendar</field>
+            <field name="domain">[('is_subcontract','=', True)]</field>
+            <field name="context">{'contact_display': 'partner_address', 'default_company_id': allowed_company_ids[0]}
+            </field>
+            <field name="search_view_id" ref="stock.view_picking_internal_search"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No transfer found. Let's create one!
+                </p>
+                <p>
+                    Transfers allow you to move products from one location to another.
+                </p>
+            </field>
+        </record>
+
+        <menuitem action="subcontract_receipt_action" id="menu_subcontract_receipt"
+                  parent="purchase_subcontract.menu_subcontract"
+                  groups="mrp.group_mrp_manager,purchase.group_purchase_manager"
+                  sequence="3"/>
+
+    </data>
+</odoo>

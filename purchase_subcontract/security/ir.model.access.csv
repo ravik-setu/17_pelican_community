@@ -1,0 +1,4 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_subcontract_specification_wizard","access.subcontract.specification.wizard","model_subcontract_specification_wizard",,1,1,1,1
+"access_subcontract_process","access.subcontract.process","model_subcontract_process",,1,1,1,1
+"access_purchase_subcontract_line","access.purchase.subcontract.line","model_purchase_subcontract_line",,1,1,1,1

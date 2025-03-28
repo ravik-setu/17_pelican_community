@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Inherited : Stock Picking Form View -->
+<!--        <record id="mrp_extended_inherit_view_picking_form" model="ir.ui.view">-->
+<!--            <field name="name">mrp.extended.inherit.view.picking.form</field>-->
+<!--            <field name="model">stock.picking</field>-->
+<!--            <field name="inherit_id" ref="stock.view_picking_form"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//field[@name='lot_id']" position="attributes">-->
+<!--                    <attribute name="context">-->
+<!--                        {'is_need_to_find_available_stock_lot': True if has_tracking != 'none' else False}-->
+<!--                    </attribute>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
+    </data>
+</odoo>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Product Variant -->
+    <record id="product_extended_inherited_view_stock_quant_tree_editable" model="ir.ui.view">
+        <field name="name">product.extended.inherited.view.stock.quant.tree.editable</field>
+        <field name="model">stock.quant</field>
+        <field name="inherit_id" ref="stock.view_stock_quant_tree_editable"/>
+        <field name="arch" type="xml">
+            <field name="reserved_quantity" position="after">
+                <field name="quant_qty" optional="show" sum="Total Qty In PCS" readonly="1"/>
+            </field>
+        </field>
+    </record>
+
+    <!-- Search View-->
+    <record id="mrp_extended_inherit_quant_search_view" model="ir.ui.view">
+        <field name="name">mrp_extended_inherit_quant_search_view</field>
+        <field name="model">stock.quant</field>
+        <field name="inherit_id" ref="stock.quant_search_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='productgroup']" position="before">
+                <filter string="Planning Lot" name="planning_lot_id" domain="[]"
+                        context="{'group_by': 'planning_lot_id'}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Override Action -->
+    <record id="stock.dashboard_open_quants" model="ir.actions.act_window">
+        <field name="name">Locations</field>
+        <field name="context">{'search_default_internal_loc': 1, 'search_default_productgroup':1,
+            'search_default_planning_lot_id':1,'search_default_locationgroup':1, 'inventory_mode':True}
+        </field>
+        <field name="res_model">stock.quant</field>
+        <field name="view_id" ref="stock.view_stock_quant_tree_editable"/>
+    </record>
+
+    <record id="stock.action_view_quants" model="ir.actions.server">
+        <field name="name">Inventory</field>
+        <field name="model_id" ref="model_stock_quant"/>
+        <field name="state">code</field>
+        <field name="groups_id" eval="[(4, ref('stock.group_stock_user'))]"/>
+        <field name="code">
+            action = model.with_context(
+            search_default_planning_lot_id=1,
+            search_default_internal_loc=1,
+            always_show_loc=1,
+            search_default_productgroup=1,
+            search_default_locationgroup=1
+            ).action_view_quants()
+        </field>
+    </record>
+</odoo>

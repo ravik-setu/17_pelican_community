@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Inherited res_config_settings_view_form -->
+        <record id="auto_maintenance_request_inherit_res_config_settings_view_form" model="ir.ui.view">
+            <field name="name">auto_maintenance_request_inherit_res_config_settings_view_form</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="maintenance.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <!-- Added field -->
+                <xpath expr="//app[@name='maintenance']/block/setting" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//app[@name='maintenance']/block" position="inside">
+                    <setting>
+                        <field name="auto_maintenance_request_type"/>
+                    </setting>
+                    <setting>
+                        <field name="is_required_breakdown_image"/>
+                        <div class="text-muted">
+                            Required to add image of equipment,when creating its breakdown maintenance
+                            request
+                        </div>
+                    </setting>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

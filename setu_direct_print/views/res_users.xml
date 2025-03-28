@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<odoo>
+    <record model="ir.ui.view" id="view_users_form">
+        <field name="name">res.users.form (in base_report_to_printer)</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form" />
+        <field name="arch" type="xml">
+            <group name="preferences" position="after">
+                <group string="Printing" name="printing">
+                    <field name="iot_configuration_id" options="{'no_create': True}" />
+                    <field name="printer_name" required="iot_configuration_id"/>
+                </group>
+            </group>
+        </field>
+    </record>
+</odoo>

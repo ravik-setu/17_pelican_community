@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="subcontract_specification_wizard_form" model="ir.ui.view">
+            <field name="name">subcontract.specification.wizard.form</field>
+            <field name="model">subcontract.specification.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="grade" required="1"/>
+                            <field name="heat_no"/>
+                            <field name="hrc"/>
+                            <field name="lot_id"/>
+                            <field name="process_specification"/>
+                        </group>
+                        <group>
+                            <field name="drawing_size"/>
+                            <field name="bundle_size"/>
+                            <field name="uts"/>
+                            <field name="bundle_id"/>
+                            <field name="bundle_od"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button string="Add Specification" name="add_specification_in_line" type="object"
+                                class="oe_highlight" data-hotkey="q"/>
+                        <button string="Cancel" class="btn btn-secondary" special="cancel" data-hotkey="z"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record id="subcontract_specification_wizard_action" model="ir.actions.act_window">
+            <field name="name">Specification</field>
+            <field name="res_model">subcontract.specification.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

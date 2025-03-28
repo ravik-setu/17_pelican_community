@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="package_type_product_config_tree_view" model="ir.ui.view">
+            <field name="name">package.type.product.config.tree.view</field>
+            <field name="model">package.type.product.config</field>
+            <field name="arch" type="xml">
+                <tree string="Product Configuration" editable="bottom">
+                    <field name="package_type_id" invisible="1"/>
+                    <field name="product_id"/>
+                    <field name="box_quantity"/>
+                </tree>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Form View -->
+        <record id="user_restriction_warning_view_form" model="ir.ui.view">
+            <field name="name">user.restriction.warning.view.form</field>
+            <field name="model">user.restriction.warning</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <field name="warning_msg" readonly="1"/>
+                        <footer>
+                            <button special="cancel" data-hotkey="z" string="Cancel"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action View -->
+        <record id="user_restriction_warning_action" model="ir.actions.act_window">
+            <field name="name">Warning</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">user.restriction.warning</field>
+            <field name="target">new</field>
+            <field name="view_mode">form</field>
+        </record>
+    </data>
+</odoo>

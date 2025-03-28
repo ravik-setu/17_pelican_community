@@ -1,0 +1,5 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_raw_material_stock","access.raw.material.stock","model_raw_material_stock",,1,1,1,1
+"access_raw_material_stock_line","access.raw.material.stock.line","model_raw_material_stock_line",,1,1,1,1
+"access_product_grade","access.product.grade","model_product_grade",,1,1,1,1
+"mrp_extended.access_user_restriction_warning","access_user_restriction_warning","mrp_extended.model_user_restriction_warning",,1,1,1,1

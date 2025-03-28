@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Inherited mrp.workorder Tablet View Form -->
+        <record id="mrp_extended_inherit_mrp_workorder_view_form_tablet" model="ir.ui.view">
+            <field name="name">mrp.extended.inherit.mrp.workorder.view.form.tablet</field>
+            <field name="model">mrp.workorder</field>
+            <field name="inherit_id" ref="setu_mrp_workorder.mrp_workorder_view_form_tablet"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/div[1]/div[3]" position="inside">
+                    <div class="o_workorder_field o_workorder_bar_content">
+                        <span>Total Available Quantity:</span>
+                        <field name="total_component_available_qty" class="oe_inline text-start"/>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

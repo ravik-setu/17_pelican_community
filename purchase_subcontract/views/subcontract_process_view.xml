@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="subcontract_process_tree_view" model="ir.ui.view">
+            <field name="name">subcontract.process.tree.view</field>
+            <field name="model">subcontract.process</field>
+            <field name="arch" type="xml">
+                <tree string="Process" editable="bottom">
+                    <field name="name" required="1"/>
+                    <field name="code" required="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="subcontract_process_action" model="ir.actions.act_window">
+            <field name="name">Process</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">subcontract.process</field>
+            <field name="view_mode">tree</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    There is no process.
+                </p>
+            </field>
+        </record>
+
+        <menuitem name="Configuration" id="subcontract_configuration_menu"
+                  parent="purchase_subcontract.menu_subcontract_root"
+                  action="subcontract_process_action"
+                  groups="mrp.group_mrp_manager,purchase.group_purchase_manager"
+                  sequence="10"/>
+        <menuitem name="Process" id="subcontract_process_menu"
+                  parent="purchase_subcontract.subcontract_configuration_menu"
+                  action="subcontract_process_action"
+                  groups="mrp.group_mrp_manager,purchase.group_purchase_manager"
+                  sequence="1"/>
+
+    </data>
+</odoo>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="account_extended_inherit_invoice_form_inherit_l10n_in" model="ir.ui.view">
+            <field name="name">account.extended.inherit.invoice.form.inherit.l10n.in</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="l10n_in.invoice_form_inherit_l10n_in"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <field name="l10n_in_gst_treatment" position="after">
+                    <field name="apply_tds"
+                           readonly="state != 'draft'"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

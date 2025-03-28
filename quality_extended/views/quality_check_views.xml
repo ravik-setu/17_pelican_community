@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Inherited Quality Check View Tree -->
+        <record id="mrp_extended_inherit_quality_check_view_tree" model="ir.ui.view">
+            <field name="name">mrp.extended.inherit.quality.check.view.tree</field>
+            <field name="model">quality.check</field>
+            <field name="inherit_id" ref="setu_quality_control.quality_check_view_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='quality_state']" position="after">
+                    <field name="test_type" invisible="1"/>
+                    <field name="tolerance_min"
+                           invisible="quality_state != 'none' or test_type != 'measure'" />
+                    <field name="tolerance_max"
+                           invisible="quality_state != 'none' or test_type != 'measure'" />
+                    <button name="do_pass" type="object" class="btn-primary" string="Pass"
+                           invisible="quality_state != 'none' or test_type != 'passfail'"/>
+                    <button name="do_fail" type="object" class="btn-danger" string="Fail"
+                           invisible="quality_state != 'none' or test_type != 'passfail'"/>
+                    <button name="action_do_measure" type="object" class="btn-primary" string="Measure"
+                            invisible="quality_state != 'none' or test_type != 'measure'"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Action : Quality Checks -->
+        <record id="quality_extended_quality_check_action_main" model="ir.actions.act_window">
+            <field name="name">Quality Checks</field>
+            <field name="res_model">quality.check</field>
+            <field name="view_mode">tree</field>
+            <field name="context">{'search_default_progress': "1", 'search_default_by_product': "1"}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No quality check found
+                </p>
+                <p>
+                    Define Quality Control Points in order to automatically generate
+                    quality checks at the right logistic operation: transfers, manufacturing orders.
+                </p>
+            </field>
+        </record>
+
+        <!-- Menu Items -->
+        <menuitem id="setu_quality_control.menu_quality_root"
+                  name="Quality"
+                  web_icon="setu_quality_control,static/description/icon.png"
+                  sequence="150"
+                  groups="setu_quality.group_quality_user"
+                  action="quality_extended.quality_extended_quality_check_action_main"
+        />
+    </data>
+</odoo>
